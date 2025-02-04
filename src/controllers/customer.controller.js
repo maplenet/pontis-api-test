@@ -20,7 +20,7 @@ const getCustomer = async (req, res) => {
     const response = await ApiService.executeRequest(
       "POST",
       "/customer/getCustomer/",
-      { customerId: req.params.customerId },
+      { customerId },
       req.headers.cookie
     );
 

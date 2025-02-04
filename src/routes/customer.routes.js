@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.post("/", customerController.createCustomer);
-router.get("/:customerId", customerController.getCustomer);
+router.post("/getCustomer", customerController.getCustomer);
 router.put("/:customerId", customerController.updateCustomer);
 
 export default router;
