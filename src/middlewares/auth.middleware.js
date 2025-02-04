@@ -4,9 +4,9 @@ const authMiddleware = (req, res, next) => {
   try {
     const customerId = req.body.customerId || req.params.customerId;
 
-    if (!customerId) {
-      throw new Error("Customer ID es requerido");
-    }
+    // if (!customerId) {
+    //   throw new Error("Customer ID es requerido");
+    // }
 
     const sessionCookie = sessionService.getSession();
 

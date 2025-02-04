@@ -2,10 +2,20 @@ import ApiService from "../services/api.service.js";
 
 const createCustomer = async (req, res) => {
   try {
+    const customerData = req.body;
+
+    if (
+      !customerData.customer ||
+      !customerData.customerAccount ||
+      !customerData.customerInfo
+    ) {
+      throw new Error("Datos del customer incompletos");
+    }
+
     const response = await ApiService.executeRequest(
       "POST",
       "/customer/create",
-      req.body,
+      customerData,
       req.headers.cookie
     );
 

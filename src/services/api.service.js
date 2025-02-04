@@ -11,7 +11,6 @@ const axiosInstance = axios.create({
 class ApiService {
   static async login(customerId, password) {
     try {
-      console.log("customerId", config.external.loginUrl);
       const response = await axiosInstance.post(
         config.external.loginUrl,
         null,
