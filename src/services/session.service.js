@@ -7,8 +7,8 @@ class SessionService {
     this.sessions[customerId] = sessionCookie;
   }
 
-  getSession(customerId) {
-    return this.sessions[customerId];
+  getSession() {
+    return this.sessions['subop_maplenet1'];
   }
 }
 

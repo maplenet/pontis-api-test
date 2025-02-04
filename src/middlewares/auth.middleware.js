@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
       throw new Error("Customer ID es requerido");
     }
 
-    const sessionCookie = sessionService.getSession(customerId);
+    const sessionCookie = sessionService.getSession();
 
     if (!sessionCookie) {
       throw new Error("Sesión no encontrada. Debe hacer login primero");
