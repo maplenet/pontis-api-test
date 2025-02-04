@@ -17,6 +17,12 @@ const createCustomer = async (req, res) => {
 
 const getCustomer = async (req, res) => {
   try {
+    const { customerId } = req.body;
+
+    if (!customerId) {
+      throw new Error("Customer ID es requerido");
+    }
+
     const response = await ApiService.executeRequest(
       "POST",
       "/customer/getCustomer/",
