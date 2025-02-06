@@ -61,8 +61,30 @@ const updateCustomer = async (req, res) => {
   }
 };
 
+const deleteCustomer = async (req, res) => {
+  try {
+    const { customerId, force } = req.body;
+
+    if (!customerId || !force) {
+      throw new Error("customerId y force son requeridos");
+    }
+
+    const response = await ApiService.executeRequest(
+      "POST",
+      "/customer/delete",
+      { customerId, force },
+      req.headers.cookie
+    );
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export default {
   createCustomer,
   getCustomer,
   updateCustomer,
+  deleteCustomer,
 };
