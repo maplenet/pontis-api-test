@@ -7,7 +7,8 @@ const createCustomer = async (req, res) => {
     if (
       !customerData.customer ||
       !customerData.customerAccount ||
-      !customerData.customerInfo
+      !customerData.customerInfo ||
+      !customerData.subscribeService
     ) {
       throw new Error("Datos del customer incompletos");
     }
@@ -18,8 +19,10 @@ const createCustomer = async (req, res) => {
       customerData,
       req.headers.cookie
     );
-
-    res.status(201).json(response);
+    if(response.httpStatus !== 200) {
+      throw new Error(response.errorMessage);
+    }
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
