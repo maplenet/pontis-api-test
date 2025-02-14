@@ -85,9 +85,31 @@ const deleteCustomer = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const { customerId, password } = req.body;
+
+    if (!customerId || !password) {
+      throw new Error("customerId y password son requeridos");
+    }
+
+    const response = await ApiService.executeRequest(
+      "PUT",
+      `/customer/update/${customerId}`,
+      { customerAccount: { password: password } },
+      req.headers.cookie
+    );
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export default {
   createCustomer,
   getCustomer,
   updateCustomer,
   deleteCustomer,
+  changePassword,
 };
