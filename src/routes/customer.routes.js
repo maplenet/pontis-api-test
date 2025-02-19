@@ -8,6 +8,7 @@ router.use(authMiddleware);
 
 router.post("/create", customerController.createCustomer);
 router.post("/getCustomer", customerController.getCustomer);
+router.get("/getCustomers", customerController.getCustomers);
 router.put("/:customerId", customerController.updateCustomer);
 router.post("/delete", customerController.deleteCustomer);
 router.put("/changePassword", customerController.changePassword);

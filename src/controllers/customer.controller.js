@@ -19,7 +19,25 @@ const createCustomer = async (req, res) => {
       customerData,
       req.headers.cookie
     );
-    if(response.httpStatus !== 200) {
+    if (response.httpStatus !== 200) {
+      throw new Error(response.errorMessage);
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getCustomers = async (req, res) => {
+  const params = new URLSearchParams(req.query).toString();
+  try {
+    const response = await ApiService.executeRequest(
+      "GET",
+      `/customer/filterList?${params}`,
+      null,
+      req.headers.cookie
+    );
+    if (response.httpStatus !== 200) {
       throw new Error(response.errorMessage);
     }
     res.status(200).json(response);
@@ -109,6 +127,7 @@ const changePassword = async (req, res) => {
 export default {
   createCustomer,
   getCustomer,
+  getCustomers,
   updateCustomer,
   deleteCustomer,
   changePassword,
