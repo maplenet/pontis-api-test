@@ -48,7 +48,7 @@ const getCustomers = async (req, res) => {
 
 const getCustomer = async (req, res) => {
   try {
-    const { customerId } = req.body;
+    const customerId = req.params.customerId;
 
     if (!customerId) {
       throw new Error("Customer ID es requerido");
