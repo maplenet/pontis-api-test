@@ -124,6 +124,39 @@ const changePassword = async (req, res) => {
   }
 };
 
+const deleteServices = async (req, res) => {
+  try {
+    const customerId = req.params.customerId;
+    const subscribeServiceId = [];
+
+    if (!customerId) {
+      throw new Error("customerId and subscribeServiceId are required");
+    }
+
+    const dataCustomer = await ApiService.executeRequest(
+      "POST",
+      "/customer/getCustomer/",
+      { customerId },
+      req.headers.cookie
+    );
+
+    dataCustomer.subscribeService.map((service) => {
+      if (service.expireDt !== null)
+        subscribeServiceId.push(service.subscribeServiceId);
+    });
+
+    const response = await ApiService.executeRequest(
+      "POST",
+      `/customer/deleteservices`,
+      { subscribeServiceDTOList: [{ customerId, subscribeServiceId }] }
+    );
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export default {
   createCustomer,
   getCustomer,
@@ -131,4 +164,5 @@ export default {
   updateCustomer,
   deleteCustomer,
   changePassword,
+  deleteServices,
 };

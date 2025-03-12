@@ -12,5 +12,6 @@ router.get("/getCustomers", customerController.getCustomers);
 router.put("/:customerId", customerController.updateCustomer);
 router.post("/delete", customerController.deleteCustomer);
 router.put("/changePassword", customerController.changePassword);
+router.delete("/deleteServices/:customerId", customerController.deleteServices);
 
 export default router;
