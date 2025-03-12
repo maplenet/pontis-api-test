@@ -140,15 +140,16 @@ const deleteServices = async (req, res) => {
       req.headers.cookie
     );
 
-    dataCustomer.subscribeService.map((service) => {
+    dataCustomer.response.subscribeService.map((service) => {
       if (service.expireDt !== null)
-        subscribeServiceId.push(service.subscribeServiceId);
+        subscribeServiceId.push(service.subscribeServiceId.toString());
     });
 
     const response = await ApiService.executeRequest(
       "POST",
       `/customer/deleteservices`,
-      { subscribeServiceDTOList: [{ customerId, subscribeServiceId }] }
+      { subscribeServiceDTOList: [{ customerId, subscribeServiceId }] },
+      req.headers.cookie
     );
 
     res.status(200).json(response);
