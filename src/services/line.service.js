@@ -10,7 +10,6 @@ const axiosInstance = axios.create({
 
 class LineService {
   static async executeRequest(method, action, params = {}) {
-    console.log("params", params);
     try {
       const response = await axiosInstance({
         method,
