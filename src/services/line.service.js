@@ -1,0 +1,35 @@
+import axios from "axios";
+import https from "https";
+import { config } from "../config/env.js";
+
+const axiosInstance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+});
+
+class LineService {
+  static async executeRequest(method, action, params = {}) {
+    console.log("params", params);
+    console.log("config.ott.baseUrl", config.ott.baseUrl);
+    console.log("config.ott.apiKey", config.ott.apiKey);
+    console.log("action", action);
+    try {
+      const response = await axiosInstance({
+        method,
+        url: `${config.ott.baseUrl}`,
+        params: {
+          ...params,
+          api_key: config.ott.apiKey,
+          action: action,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      throw new Error(`API request failed: ${error.message}`);
+    }
+  }
+}
+
+export default LineService;

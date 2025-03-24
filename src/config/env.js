@@ -7,6 +7,10 @@ export const config = {
   external: {
     baseUrl: process.env.EXTERNAL_BASE_URL,
     apiBaseUrl: process.env.EXTERNAL_API_BASE_URL,
-    loginUrl: process.env.EXTERNAL_LOGIN_URL
-  }
+    loginUrl: process.env.EXTERNAL_LOGIN_URL,
+  },
+  ott: {
+    baseUrl: process.env.OTT_BASE_URL,
+    apiKey: process.env.OTT_API_KEY,
+  },
 };
