@@ -4,7 +4,7 @@ const createLine = async (req, res) => {
   try {
     const { customer, customerAccount, subscribeService } = req.body;
     const bouquets_selected = subscribeService.map(
-      (service) => service.serviceMenu.serviceMenuId
+      (service) => parseInt(service.serviceMenu.serviceMenuId)
     );
 
     const access_output = [1, 2];

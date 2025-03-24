@@ -11,9 +11,6 @@ const axiosInstance = axios.create({
 class LineService {
   static async executeRequest(method, action, params = {}) {
     console.log("params", params);
-    console.log("config.ott.baseUrl", config.ott.baseUrl);
-    console.log("config.ott.apiKey", config.ott.apiKey);
-    console.log("action", action);
     try {
       const response = await axiosInstance({
         method,
