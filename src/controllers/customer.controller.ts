@@ -1,6 +1,7 @@
-import ApiService from "../services/api.service.js";
+import ApiService from "../services/api.service";
+import { Request, Response } from "express";
 
-const createCustomer = async (req, res) => {
+const createCustomer = async (req: Request, res: Response) => {
   try {
     const customerData = req.body;
 
@@ -24,17 +25,23 @@ const createCustomer = async (req, res) => {
     }
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const getCustomers = async (req, res) => {
-  const params = new URLSearchParams(req.query).toString();
+const getCustomers = async (req: Request, res: Response) => {
+  const params = new URLSearchParams(
+    req.query as Record<string, string>
+  ).toString();
   try {
     const response = await ApiService.executeRequest(
       "GET",
       `/customer/filterList?${params}`,
-      null,
+      {},
       req.headers.cookie
     );
     if (response.httpStatus !== 200) {
@@ -42,11 +49,15 @@ const getCustomers = async (req, res) => {
     }
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const getCustomer = async (req, res) => {
+const getCustomer = async (req: Request, res: Response) => {
   try {
     const customerId = req.params.customerId;
 
@@ -63,11 +74,15 @@ const getCustomer = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const updateCustomer = async (req, res) => {
+const updateCustomer = async (req: Request, res: Response) => {
   try {
     const response = await ApiService.executeRequest(
       "PUT",
@@ -78,11 +93,15 @@ const updateCustomer = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const deleteCustomer = async (req, res) => {
+const deleteCustomer = async (req: Request, res: Response) => {
   try {
     const { customerId, force } = req.body;
 
@@ -99,11 +118,15 @@ const deleteCustomer = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const changePassword = async (req, res) => {
+const changePassword = async (req: Request, res: Response) => {
   try {
     const { customerId, password } = req.body;
 
@@ -120,14 +143,18 @@ const changePassword = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 
-const deleteServices = async (req, res) => {
+const deleteServices = async (req: Request, res: Response) => {
   try {
     const customerId = req.params.customerId;
-    const subscribeServiceId = [];
+    const subscribeServiceId: any[] = [];
 
     if (!customerId) {
       throw new Error("customerId and subscribeServiceId are required");
@@ -140,7 +167,7 @@ const deleteServices = async (req, res) => {
       req.headers.cookie
     );
 
-    dataCustomer.response.subscribeService.map((service) => {
+    dataCustomer.response.subscribeService.map((service: any) => {
       if (service.expireDt !== null)
         subscribeServiceId.push(service.subscribeServiceId.toString());
     });
@@ -154,7 +181,11 @@ const deleteServices = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 

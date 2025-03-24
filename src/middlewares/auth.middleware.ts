@@ -1,6 +1,8 @@
-import sessionService from "../services/session.service.js";
+import sessionService from "../services/session.service";
 
-const authMiddleware = (req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const customerId = req.body.customerId || req.params.customerId;
 
@@ -17,7 +19,11 @@ const authMiddleware = (req, res, next) => {
     req.headers.cookie = sessionCookie;
     next();
   } catch (error) {
-    res.status(401).json({ error: error.message });
+    if (error instanceof Error) {
+      res.status(401).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
 

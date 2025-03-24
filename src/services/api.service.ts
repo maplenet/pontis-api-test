@@ -1,6 +1,6 @@
 import axios from "axios";
 import https from "https";
-import { config } from "../config/env.js";
+import { config } from "../config/env";
 
 const axiosInstance = axios.create({
   httpsAgent: new https.Agent({
@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 });
 
 class ApiService {
-  static async login(customerId, password) {
+  static async login(customerId: string, password: string) {
     try {
       const response = await axiosInstance.post(
         config.external.loginUrl,
@@ -22,17 +22,27 @@ class ApiService {
         }
       );
 
-      const sessionCookie = response.headers["set-cookie"].find((cookie) =>
-        cookie.startsWith("JSESSIONID=")
-      );
+      const cookies = response.headers["set-cookie"];
+      const sessionCookie = cookies
+        ? cookies.find((cookie) => cookie.startsWith("JSESSIONID="))
+        : undefined;
 
       return sessionCookie;
     } catch (error) {
-      throw new Error(`Login failed: ${error.message}`);
+      if (error instanceof Error) {
+        throw new Error(`Login failed: ${error.message}`);
+      } else {
+        throw new Error("Login failed: Unknown error");
+      }
     }
   }
 
-  static async executeRequest(method, endpoint, data = {}, cookies = "") {
+  static async executeRequest(
+    method: string,
+    endpoint: string,
+    data = {},
+    cookies = ""
+  ) {
     try {
       const response = await axiosInstance({
         method,
@@ -46,7 +56,11 @@ class ApiService {
 
       return response.data;
     } catch (error) {
-      throw new Error(`API request failed: ${error.message}`);
+      if (error instanceof Error) {
+        throw new Error(`API request failed: ${error.message}`);
+      } else {
+        throw new Error("API request failed: Unknown error");
+      }
     }
   }
 }

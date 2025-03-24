@@ -69,7 +69,7 @@ const customerSchema = Joi.object({
     .required(),
 });
 
-export const validateCustomerData = (customerData) => {
+export const validateCustomerData = (customerData: any) => {
   const { error } = customerSchema.validate(customerData);
   if (error) {
     throw new Error(
