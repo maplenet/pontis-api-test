@@ -19,7 +19,11 @@ const createLine = async (req: Request, res: Response) => {
     const username = customerAccount.login;
     const password = customerAccount.password;
 
-    // const userExiste = await User.findOne({ where: { username } });
+    const userExiste = await User.findOne({ where: { username } });
+
+    if (userExiste) {
+      throw new Error("User already exists");
+    }
 
     const max_connections =
       parseInt(customer.autoProvCountStationary) +
@@ -49,17 +53,16 @@ const createLine = async (req: Request, res: Response) => {
 
     const expDate = new Date(response.data.exp_date * 1000);
 
-    const user = new User(
-      response.data.id,
-      response.data.username,
-      response.data.password,
-      max_connections,
-      customerInfo.email,
-      customer.firstName,
-      customer.lastName,
-      customerInfo.city,
-      expDate
-    );
+    const user = new User();
+    user.idLine = response.data.id;
+    user.username = response.data.username;
+    user.password = response.data.password;
+    user.conections = max_connections;
+    user.email = customerInfo.email;
+    user.firstName = customer.firstName;
+    user.lastName = customer.lastName;
+    user.city = customerInfo.city;
+    user.expiredAt = expDate;
 
     await user.save();
 

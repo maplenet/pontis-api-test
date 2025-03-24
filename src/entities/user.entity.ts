@@ -14,31 +14,31 @@ export class User extends BaseEntity {
   id!: number;
 
   @Column()
-  idLine: number;
+  idLine: number = 0;
 
   @Column()
-  username: string;
+  username: string = "";
 
   @Column()
-  password: string;
+  password: string = "";
 
   @Column()
-  conections: number;
+  conections: number = 0;
 
   @Column()
-  expiredAt: Date;
+  expiredAt: Date = new Date();
 
   @Column()
-  email: string;
+  email: string = "";
 
   @Column()
-  firstName: string;
+  firstName: string = "";
 
   @Column()
-  lastName: string;
+  lastName: string = "";
 
   @Column()
-  city: string;
+  city: string = "";
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -47,29 +47,5 @@ export class User extends BaseEntity {
   updatedAt!: Date;
 
   @Column({ default: UserStatus.ACTIVE })
-  status: string;
-
-  constructor(
-    idLine: number,
-    username: string,
-    password: string,
-    conections: number,
-    email: string,
-    firstName: string,
-    lastName: string,
-    city: string,
-    expiredAt: Date,
-  ) {
-    super();
-    this.idLine = idLine;
-    this.username = username;
-    this.password = password;
-    this.email = email;
-    this.conections = conections;
-    this.expiredAt = expiredAt;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.city = city;
-    this.status = UserStatus.ACTIVE;
-  }
+  status: string = UserStatus.ACTIVE;
 }
