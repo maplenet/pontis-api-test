@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "ts-node-dev --respawn index.ts"
+    "start": "npx tsc && node dist/src/index.js",
+    "dev": "ts-node-dev --respawn src/index.ts --host"
   },
   "author": "",
   "license": "ISC",

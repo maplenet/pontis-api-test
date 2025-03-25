@@ -1,9 +1,7 @@
-import { config } from "./src/config/env";
+import { config } from "./config/env";
 import "reflect-metadata";
-import app from "./src/app";
-import { AppDataSource } from "./src/config/database";
-
-process.env.TZ = "America/New_York";
+import app from "./app";
+import { AppDataSource } from "./config/database";
 
 async function main() {
   try {

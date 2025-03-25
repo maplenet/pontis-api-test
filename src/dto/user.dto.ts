@@ -1,11 +1,11 @@
-export const userDto = {
-  idLine: 0,
-  email: "",
-  user: "",
-  password: "",
-  conections: 0,
-  expiredAt: "",
-  firstName: "",
-  lastName: "",
-  city: "",
+export interface UserDto {
+  idLine: number,
+  email: string,
+  username: string,
+  password: string,
+  conections: number,
+  expiredAt: Date,
+  firstName: string,
+  lastName: string,
+  city: string,
 };

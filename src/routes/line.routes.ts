@@ -6,6 +6,6 @@ const router = express.Router();
 router.post("/create", lineController.createLine);
 router.get("/getCustomer/:idLine", lineController.getLine);
 router.delete("/delete/:idLine", lineController.deleteLine);
-router.put("/:idLine", lineController.updateLine);
+router.put("/:username", lineController.updateLine);
 
 export default router;
