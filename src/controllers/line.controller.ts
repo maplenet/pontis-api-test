@@ -110,6 +110,54 @@ const getLine = async (req: Request, res: Response) => {
   }
 };
 
+const getLineByUser = async (req: Request, res: Response) => {
+  let responseData: {
+    id: number | null;
+    response: string | null;
+    packages: any[];
+  } = {
+    id: null,
+    response: null,
+    packages: [],
+  };
+  try {
+    const { username } = req.params;
+
+    if (!username) {
+      throw new Error("username is required");
+    }
+    const user = await getUser(username);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const expireDate = user.expiredAt.toLocaleDateString("es-ES", {
+      timeZone: "ETC/GMT+4",
+    });
+    const hour = user.expiredAt.toLocaleTimeString("es-ES", {
+      timeZone: "ETC/GMT+4",
+    });
+
+    const response = await LineService.executeRequest("GET", "get_line", {
+      id: user.idLine,
+    });
+
+    responseData = {
+      id: user.idLine,
+      response: response.data.username,
+      packages: response.data.bouquet,
+    };
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
+  }
+};
+
 const deleteLine = async (req: Request, res: Response) => {
   try {
     const { idLine } = req.params;
@@ -212,4 +260,4 @@ const updateLine = async (req: Request, res: Response) => {
   }
 };
 
-export default { createLine, getLine, deleteLine, updateLine };
+export default { createLine, getLine, getLineByUser, deleteLine, updateLine };

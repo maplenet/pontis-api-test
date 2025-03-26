@@ -4,7 +4,8 @@ import lineController from "../controllers/line.controller";
 const router = express.Router();
 
 router.post("/create", lineController.createLine);
-router.get("/getCustomer/:idLine", lineController.getLine);
+router.get("/getCustomer/:username", lineController.getLineByUser);
+router.get("/:idLine", lineController.getLine);
 router.delete("/delete/:idLine", lineController.deleteLine);
 router.put("/:username", lineController.updateLine);
 
