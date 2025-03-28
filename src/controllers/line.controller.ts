@@ -110,15 +110,186 @@ const getLine = async (req: Request, res: Response) => {
   }
 };
 
+const respGetUser = (
+  customerId: string,
+  lastName: string,
+  firstName: string,
+  autoProvisionCountMobile: number,
+  autoProvCountStationary: number,
+  password: string,
+  effectiveDt: string,
+  email: string
+) => {
+  const service = {
+    subscribeServiceId: 4866847,
+    serviceMenu: {
+      serviceMenuId: 6213,
+      serviceCode: "SRPKG",
+      name: "M+ Servicio Básico",
+      price: "0.00",
+      serviceId: 78101,
+    },
+    purchasedFromClient: "N",
+    effectiveDt: "20/03/2025",
+    expireDt: null,
+  };
+
+  return {
+    response: {
+      customer: {
+        customerId,
+        lastName,
+        middleName: null,
+        firstName,
+        loginRequired: "N",
+        status: "A",
+        pin: "0000",
+        entityId: 1,
+        displayTimeout: 10,
+        parentalControl: "N",
+        hasPpv: "N",
+        hasPromoChannel: "N",
+        hasVod: "Y",
+        channelBlocking: "N",
+        autoProvisionCount: 0,
+        autoProvisionCountMobile,
+        blockedChannelList: null,
+        nrtcAccountTypeId: 1,
+        fcoDrops: null,
+        favoritesEnabled: "Y",
+        multicastenabled: "N",
+        multicastTunein: "N",
+        enableStreamManagement: "N",
+        totalAttainableBandwidth: 0,
+        callerIdEnable: "N",
+        localizationId: 71,
+        npvrLimit: 0,
+        pauselivetvLimit: 0,
+        autoProvCountStationary,
+        externalCustomerId: null,
+        advertisementOptIn: null,
+      },
+      customerAccount: {
+        accountId: 71,
+        login: customerId,
+        password,
+        showAllChannel: "N",
+        allowance: null,
+        pinRequired: "N",
+        sexRating: "N",
+        languageRating: "N",
+        violentRating: "N",
+        dialogRating: "N",
+        fvRating: "N",
+        reminderPeriod: null,
+        ppvAutoSetReminder: "R",
+        blockUnrated: "N",
+        unlockTimeout: 120,
+        bootStreamId: null,
+        primaryAudioLanguage: "spa",
+        secondaryAudioLanguage: "eng",
+        primarySubtitleLanguage: "spa",
+        secondarySubtitleLanguage: "eng",
+        closedCaptions: "N",
+        descriptiveVideo: "N",
+        imageIdFocused: 1,
+        imageIdUnfocused: 2,
+        notificationTimeout: 10,
+        username: null,
+        effectiveDt,
+        expireDt: null,
+        mpaaAccessLevel: {
+          assetRatingId: 8,
+          assetRating: "X",
+        },
+        tvRatingId: {
+          tvRatingId: 6,
+          tvRating: "TVMA",
+        },
+        language: null,
+        shareRental: "Y",
+      },
+      customerInfo: {
+        address1: "CALLE MAPLENET",
+        address2: null,
+        address3: null,
+        city: "La Paz",
+        state: "La Paz",
+        zipcode: "0000",
+        workPhone: null,
+        homePhone: null,
+        fax: null,
+        email,
+        note: null,
+        mobilePhone: "77777777",
+        easLocationCode: null,
+        zoneId: null,
+      },
+      remoteSchedulerCustomer: null,
+      subscribeService: [
+        {
+          subscribeServiceId: 4866847,
+          serviceMenu: {
+            serviceMenuId: 6213,
+            serviceCode: "SRPKG",
+            name: "M+ Servicio Básico",
+            price: "0.00",
+            serviceId: 78101,
+          },
+          purchasedFromClient: "N",
+          effectiveDt: "20/03/2025",
+          expireDt: null,
+        },
+        {
+          subscribeServiceId: 4866848,
+          serviceMenu: {
+            serviceMenuId: 6214,
+            serviceCode: "CDSP",
+            name: "M+ Servicio Mobile",
+            price: "0.00",
+            serviceId: 78102,
+          },
+          purchasedFromClient: "N",
+          effectiveDt: "20/03/2025",
+          expireDt: null,
+        },
+        {
+          subscribeServiceId: 4866849,
+          serviceMenu: {
+            serviceMenuId: 6215,
+            serviceCode: "SRPKG",
+            name: "M+ Servicio Stationary",
+            price: "0.00",
+            serviceId: 78103,
+          },
+          purchasedFromClient: "N",
+          effectiveDt: "20/03/2025",
+          expireDt: null,
+        },
+      ],
+      subaccountCount: 0,
+      assignedMobileCount: 5,
+      assignedStbCount: 0,
+      channelLineupName: "Maplenet (4081)",
+      accountTypeDesc: "Residential",
+    },
+    statusCode: 0,
+    statusMessage: "Customer information retrieved successfully",
+    errorCode: null,
+    errorMessage: null,
+    httpStatus: 200,
+  };
+};
+
 const getLineByUser = async (req: Request, res: Response) => {
   let responseData: {
     id: number | null;
     response: string | null;
-    packages: any[];
+    subscribeService: any[];
   } = {
     id: null,
     response: null,
-    packages: [],
+    subscribeService: [],
   };
   try {
     const { username } = req.params;
@@ -145,10 +316,23 @@ const getLineByUser = async (req: Request, res: Response) => {
     responseData = {
       id: user.idLine,
       response: response.data.username,
-      packages: response.data.bouquet,
+      subscribeService: response.data.bouquet,
     };
 
-    res.status(200).json(responseData);
+    res
+      .status(200)
+      .json(
+        respGetUser(
+          user.username,
+          user.lastName,
+          user.firstName,
+          1,
+          1,
+          user.password,
+          expireDate,
+          user.email
+        )
+      );
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
